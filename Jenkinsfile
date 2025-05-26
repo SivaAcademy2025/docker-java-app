@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('java-app')
+                    def appImage = docker.build("java-app")
                 }
             }
         }
@@ -19,7 +19,8 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    docker.image('java-app').run()
+                    def appImage = docker.image("java-app")
+                    appImage.run('-p 8080:8080') // Add port mapping if needed
                 }
             }
         }
