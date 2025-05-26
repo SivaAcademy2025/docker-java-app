@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/SivaAcademy2025/docker-java-app.git'
+                git branch: 'main', url: 'https://github.com/SivaAcademy2025/docker-java-app.git'
             }
         }
 
