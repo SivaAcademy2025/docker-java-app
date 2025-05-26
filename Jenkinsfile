@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
+                // Checkout your repo from GitHub main branch
                 git branch: 'main', url: 'https://github.com/SivaAcademy2025/docker-java-app.git'
             }
         }
@@ -11,19 +12,32 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image and tag it as java-app
-                    docker.build("java-app")
+                    // Build the Docker image and tag it as java-app:latest
+                    docker.build("java-app:latest")
                 }
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Run Docker Container (Optional)') {
             steps {
                 script {
-                    // Run the container and map internal port (optional since Java app is console-based)
-                    docker.image('java-app').run()
+                    // Run the Docker container temporarily to check if it works fine
+                    docker.image('java-app:latest').run('--rm')
                 }
             }
         }
+        
+        // Uncomment this stage if you want to push to Docker Hub, and configure credentials in Jenkins
+        /*
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials-id') {
+                        docker.image("java-app:latest").push()
+                    }
+                }
+            }
+        }
+        */
     }
 }
