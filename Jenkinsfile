@@ -11,7 +11,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def appImage = docker.build("java-app")
+                    // Build the Docker image and tag it as java-app
+                    docker.build("java-app")
                 }
             }
         }
@@ -19,7 +20,8 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    docker.image('java-app').run('-p 8080:8080')
+                    // Run the container and map internal port (optional since Java app is console-based)
+                    docker.image('java-app').run()
                 }
             }
         }
